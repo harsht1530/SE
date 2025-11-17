@@ -1,0 +1,628 @@
+@import "tailwindcss";
+
+@keyframes pop-scale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.animate-pop-scale {
+  animation: pop-scale 0.3s ease-in-out;
+}
+
+.bubble-tail {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white !important;
+}
+
+.bubble-box {
+  position: relative !important;
+}
+
+/* Shepherd Theme Customization */
+.shepherd-theme-arrows {
+  --shepherd-theme-primary: #800080;
+  --shepherd-text-color: black;
+  font-weight: 500;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  max-width: 400px;
+}
+
+/* Step content styling */
+.shepherd-text {
+  padding: 20px 24px !important;
+  color: #374151 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  padding-top: 0px !important;
+  
+}
+
+/* Header styling */
+.shepherd-title {
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: var(--shepherd-theme-primary) !important;
+  /* padding-bottom: 8px; */
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.shepherd-header {
+  background: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  margin: 0px !important;
+  /* padding: 0px !important; */
+}
+
+/* Button styling */
+.shepherd-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 2px !important;
+  border-top: 1px solid #fff;
+}
+
+.shepherd-button {
+  margin-right: 8px;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--shepherd-theme-primary) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background: #693865;
+}
+
+.btn-secondary {
+  background: #f3f3f3 !important;
+  color: #333 !important;
+  border: none !important;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.btn-outline {
+  background: transparent !important;
+  color: var(--shepherd-theme-primary) !important;
+  border: 1px solid var(--shepherd-theme-primary) !important;
+}
+
+.btn-outline:hover {
+  background: #f8f0f8;
+}
+
+.btn-success {
+  background: #38a169 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-success:hover {
+  background: #2f855a;
+}
+
+/* Arrow styling */
+.shepherd-arrow:before {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Modal overlay */
+.shepherd-modal-overlay-container {
+  background:transparent;
+  padding: 2px;
+  border-radius: 5px;
+  
+}
+
+/* Target element highlight */
+.shepherd-highlighted {
+  /* outline: 2px solid ; */
+ 
+  
+  padding: 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+/* Cancel icon */
+.shepherd-cancel-icon {
+  color: #333 !important;
+  transition: color 0.2s ease;
+}
+
+.shepherd-cancel-icon:hover {
+  color: #333;
+  /* background: #f3f3f3;
+  border-radius: 50%; */
+  
+}
+.shepherd-button.btn-primary,
+.shepherd-button.btn-primary:focus,
+.shepherd-button.btn-primary:hover {
+  background: var(--shepherd-theme-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+/* Control the distance between popup and target */
+.shepherd-element {
+  /* Increase the gap from target element */
+  margin: 20px !important; /* Default is usually 8px */
+}
+
+/* Specific spacing for different arrow positions */
+.shepherd-element[data-popper-placement^="top"] {
+  margin-bottom: 25px !important; /* Space below popup when arrow points down */
+}
+
+.shepherd-element[data-popper-placement^="bottom"] {
+  margin-top: 25px !important; /* Space above popup when arrow points up */
+}
+
+.shepherd-element[data-popper-placement^="left"] {
+  margin-left: -20px !important; /* Space to right when arrow points right */
+}
+
+.shepherd-element[data-popper-placement^="right"] {
+  margin-left: 25px !important; /* Space to left when arrow points left */
+}
+
+/* Custom class for extra spacing */
+.shepherd-large-gap {
+  margin: 35px !important;
+}
+
+.shepherd-small-gap {
+  margin: 10px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Themes */
+
+@theme{
+  --color-primary: #800080;
+}
+
+@theme {
+  --color-guidelineTitle:#fff
+}
+
+.spinner{
+  @apply w-8 h-8 border-4 border-[#800080] border-dashed rounded-full animate-spin
+}
+.custom-golden-bar{
+  @apply text-[#8C7B2B] font-bold text-xl
+}
+/* 
+
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #7a7979 transparent;
+}
+
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 100px;
+
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #7a7979;
+  border-radius: 999px;
+  border: 2px solid transparent; 
+  background-clip: content-box;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+} */
+
+.h1{
+  @apply text-xl font-medium text-black
+}
+.h2{
+  @apply text-lg font-medium text-black
+}
+.h3{
+  @apply text-base font-medium text-black
+}
+.h4{
+  @apply text-sm font-medium text-black
+}
+.h5{
+  @apply text-xs font-medium text-black
+}
+.h6{
+  @apply text-xs font-medium text-black
+}
+
+.p{
+  @apply text-sm font-normal text-black
+}
+.a{
+  @apply text-sm font-normal text-blue-500
+}
+.span{
+  @apply text-sm font-normal text-black
+}
+.li{
+  @apply text-sm font-normal text-black 
+}
+.ol{
+  @apply text-sm font-normal text-black
+}
+.ul{
+  @apply text-sm font-normal text-black
+}
+.img{
+  @apply w-full h-full object-cover
+}
+.button{
+  @apply  px-2 py-1 rounded-md cursor-pointer
+}
+/* .input{
+  @apply text-sm font-normal text-black border border-gray-300 rounded-md p-2 cursor-pointer hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500;
+
+
+
+} */
+/* .f-i-c-g{
+  @apply flex items-center gap-2
+}
+.f-j-t-c-i{
+  @apply flex justify-between items-center gap-2
+} */
+
+
+
+@layer components{
+  header{
+    @apply  sticky top-0 z-50 bg-white  flex w-full items-center justify-between px-1 sm:px-2 md:px-10 lg:px-12 py-2 shadow-md
+  }
+  header input{
+    @apply  pl-10 pr-4 py-1.5 md:py-2 lg:py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer
+
+  }
+ 
+  .global-reach-button{
+    @apply mt-2  bg-[#eeca45] px-2 py-1 text-sm rounded-md font-medium
+
+  }
+  .custom-button{
+    @apply bg-blue-500 text-white px-4 py-2 rounded-md;
+  }
+  .card{
+    @apply shadow-lg px-6 py-4 rounded-lg mt-6;
+  }
+  .card-title{
+    @apply text-lg font-medium text-black;
+  }
+  .card-description{
+    @apply text-sm font-normal text-black;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+
+
+
+
+
+
+
+
+/* Custom styles for Power BI integration */
+
+/* Power BI Report Container */
+.powerbi-report-container {
+    width: 100%;
+    height: 600px;
+    min-height: 500px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .powerbi-report-container {
+        height: 400px;
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+    .powerbi-report-container {
+        height: 350px;
+        min-height: 300px;
+    }
+}
+
+/* Full screen mode */
+.powerbi-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: white;
+}
+
+.powerbi-fullscreen .powerbi-report-container {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+}
+
+/* Loading states */
+.powerbi-loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.powerbi-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: loading 2s infinite;
+    z-index: 1;
+}
+
+@keyframes loading {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Custom iframe styling when Power BI loads */
+iframe[title*="Power BI"],
+iframe[src*="powerbi.com"] {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+iframe[title*="Power BI"]:hover,
+iframe[src*="powerbi.com"]:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Error state styling */
+.powerbi-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.powerbi-error svg {
+    margin: 0 auto 0.5rem;
+}
+
+/* Toolbar styling */
+.powerbi-toolbar {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.powerbi-toolbar button {
+    background: none;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.powerbi-toolbar button:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.powerbi-toolbar button:active {
+    transform: scale(0.98);
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-indicator.connected {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-indicator.loading {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-indicator.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Pulse animation for loading state */
+.pulse-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Custom scrollbar for containers */
+.powerbi-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.powerbi-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.powerbi-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.powerbi-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Responsive grid for info cards */
+@media (max-width: 768px) {
+    .info-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .powerbi-report-container {
+        height: auto;
+        min-height: 400px;
+        page-break-inside: avoid;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .powerbi-report-container {
+        border: 2px solid #000;
+    }
+    
+    .status-indicator {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .powerbi-toolbar {
+        background: #1f2937;
+        border-bottom-color: #374151;
+    }
+    
+    .powerbi-toolbar button {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+    
+    .powerbi-toolbar button:hover {
+        background: #4b5563;
+        border-color: #6b7280;
+    }
+}
+
