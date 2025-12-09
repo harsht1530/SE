@@ -82,12 +82,12 @@ const HCOHospitalsBranchesPages = () => {
                    <h1 className="text-xl font-medium">Hospital Network Branches</h1>
                     <button
                     className="text-white bg-[#800080] rounded-md flex items-center gap-2 px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-700 hover:shadow-lg"
-                    aria-label="Add to favorites"
+                    aria-label="Add to segment"
                     onClick={() => handleAddToFavorites()}
                     disabled={selectedBranches.length === 0}
                   >
                     <SlStar className="transition-transform duration-300 group-hover:rotate-12" />
-                    <span className="transition-colors duration-300">ADD TO FAVORITES</span>
+                    <span className="transition-colors duration-300">ADD TO SEGMENT</span>
                   </button>
 
                </div>

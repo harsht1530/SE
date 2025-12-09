@@ -410,7 +410,7 @@ const PeopleTab = ({
           disabled={selectedProfiles.length === 0}
           onClick={handleAddToFavorites}>
           <MdStarBorder size={20} />
-          Add to Favorites
+          Add to Segment
         </button>
       </div>
       <div className="flex items-center gap-2 ml-2 md:ml-10 lg:ml-10 pb-2">

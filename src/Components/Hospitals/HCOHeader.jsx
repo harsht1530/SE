@@ -145,7 +145,7 @@ const HCOHeader = () => {
             <p
             // className={isFavoritesActive ? "text-[#800080]" : ""}
             >
-              Favorites
+              Segments
             </p>
           </div>
        

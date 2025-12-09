@@ -326,7 +326,7 @@ const NewsfeedPage = React.memo(({ hadHiddenHeader, hadHiddenFavorites, showTabs
           {!hadHiddenFavorites && <div className="md:w-1/3 ">
             <div className="bg-white rounded-lg shadow-md p-4 step-newsfeed-favourites">
               <h2 className="text-lg font-medium text-gray-700 mb-4 ">
-                HERE YOUR FAVORITES
+                HERE YOUR Segments
               </h2>
 
               {isFavoritesLoading && (

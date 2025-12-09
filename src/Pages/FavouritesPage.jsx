@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react'
 import Header from '../Components/Header'
 import { MdStarBorder } from "react-icons/md";
@@ -17,6 +18,8 @@ import { FaRegStar } from "react-icons/fa";
 import { favoritesApi } from "../services/api"
 import GroupActionsModal from '../Components/GroupActionsModal';
 import CreateGroupModal from '../Components/CreateGroupModal';
+import ContentSelectionModal from '../Components/ContentSelectionModal';
+import TemplateSelectionModal from '../Components/TemplateSelectionModal';
 import { getAssetPath } from '../utils/imageUtils';
 import CryptoJS from 'crypto-js';
 import { Mail, MessageSquare, Phone } from "lucide-react";
@@ -107,6 +110,11 @@ const FavouritesPage = () => {
   const [selectedNumber, setSelectedNumber] = useState(null)
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false)
 
+  // Content Selection Modal States
+  const [isContentSelectionOpen, setIsContentSelectionOpen] = useState(false);
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [isTemplateSelectionOpen, setIsTemplateSelectionOpen] = useState(false);
+
   // const profiles = useSelector((state) => state.favorites.doctors)
 
   useEffect(() => {
@@ -148,11 +156,14 @@ const FavouritesPage = () => {
   // const groups = useSelector(state => state.groups.doctorGroups)
 
   const handleProfileSelect = (profile) => {
+    console.log("Profile selected/deselected:", profile.Full_Name, "Total selected:", selectedProfiles.length + 1);
     setSelectedProfiles((prev) => {
       if (prev.some((p) => p.Record_Id === profile.Record_Id)) {
+        console.log("Removing profile from selection");
         return [...prev.filter((p) => p.Record_Id !== profile.Record_Id)]
       }
       else {
+        console.log("Adding profile to selection");
         return [...prev, profile];
       }
     })
@@ -204,6 +215,99 @@ const FavouritesPage = () => {
     }
   };
 
+  // Content Selection Handlers
+  const handleSelectContentClick = () => {
+    // Check which selection array to use based on context
+    const doctorsToSend = selectedGroup ? selectedGroupDoctors : selectedProfiles;
+    
+    console.log("Select Content clicked! Doctors count:", doctorsToSend.length, "selectedGroup:", !!selectedGroup);
+    if (doctorsToSend.length === 0) {
+      toast.error("Please select at least one doctor to send content", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      return;
+    }
+    console.log("Opening content selection modal...");
+    setIsContentSelectionOpen(true);
+  };
+
+  const handleTopicSelect = (topic) => {
+    console.log("Topic selected:", topic.name);
+    setSelectedTopic(topic);
+    setIsContentSelectionOpen(false);
+    setIsTemplateSelectionOpen(true);
+  };
+
+  const handleSendContent = async (data) => {
+    const doctorsToSend = selectedGroup ? selectedGroupDoctors : selectedProfiles;
+    console.log("Send content clicked for:", data.topic.name, data.channel, "Doctors:", doctorsToSend.length);
+    const toastId = toast.loading(`Sending ${data.channel} to ${doctorsToSend.length} doctors...`);
+    
+    try {
+      // Here you would call your API
+      // For now, just simulating the send
+      const selectedIds = doctorsToSend.map(profile => profile.Record_Id);
+      
+      // Hardcoded send logic - replace with API call later
+      const payload = {
+        doctorIds: selectedIds,
+        topic: data.topic,
+        channel: data.channel,
+        templateId: data.template.id,
+        sentAt: data.timestamp
+      };
+
+      console.log("Sending content:", payload);
+
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Success
+      toast.update(toastId, {
+        render: `Content sent successfully via ${data.channel} to ${selectedIds.length} doctor(s)`,
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
+      // Reset states
+      setSelectedTopic(null);
+      setIsTemplateSelectionOpen(false);
+      
+      // Clear selections based on context
+      if (selectedGroup) {
+        setSelectedGroupDoctors([]);
+      } else {
+        setSelectedProfiles([]);
+        setSelectAll(false);
+      }
+
+    } catch (error) {
+      console.error("Error sending content:", error);
+      toast.update(toastId, {
+        render: "Failed to send content. Please try again.",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    }
+  };
+
+  const handleCloseTemplateModal = () => {
+    setIsTemplateSelectionOpen(false);
+    setSelectedTopic(null);
+  };
+
+  const handleCloseContentModal = () => {
+    setIsContentSelectionOpen(false);
+  };
+
+  const handleContentModalTopicSelect = (topic) => {
+    setSelectedTopic(topic);
+    setIsContentSelectionOpen(false);
+    setIsTemplateSelectionOpen(true);
+  };
 
   const handleCreateGroup = async (newGroup) => {
     const toastId = toast.loading("Creating Group...")
@@ -949,40 +1053,63 @@ Key Findings:
                 <p>Select all</p>
               </div>}
 
-
             </div>
-            <div>
-              {!selectedGroup ? (<button
-                className={`flex items-center gap-1 px-4 py-1 rounded-md ${selectedProfiles.length > 0
-                  ? "bg-fuchsia-700 text-white cursor-pointer"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  } `}
-                disabled={profiles?.length === 0}
-                onClick={handleRemoveFromFavorites}
+            <div className="flex items-center gap-2">
+              {/* Select Content Button - Always Visible */}
+              <button
+                className={`flex items-center gap-1 px-4 py-2 rounded-md font-medium ${
+                  (selectedGroup ? selectedGroupDoctors.length > 0 : selectedProfiles.length > 0)
+                    ? "bg-fuchsia-700 text-white cursor-pointer hover:bg-fuchsia-800"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                  } transition duration-300`}
+                disabled={selectedGroup ? selectedGroupDoctors.length === 0 : selectedProfiles.length === 0}
+                onClick={handleSelectContentClick}
+                title={(selectedGroup ? selectedGroupDoctors.length === 0 : selectedProfiles.length === 0) ? "Select doctors first" : "Click to select content"}
               >
-                <MdStarBorder size={20} />
-                Remove from Favorites
-              </button>) :
-                (!isAddMode ? (<button
-                  className={`flex items-center gap-1 px-4 py-1 rounded-md ${selectedGroupDoctors.length > 0
-                    ? "bg-fuchsia-700 text-white cursor-pointer"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    } `}
+                <Mail size={20} />
+                Select Content
+              </button>
+
+              {/* Context-Specific Buttons */}
+              {!selectedGroup ? (
+                <button
+                  className={`flex items-center gap-1 px-4 py-2 rounded-md font-medium ${selectedProfiles.length > 0
+                    ? "bg-fuchsia-700 text-white cursor-pointer hover:bg-fuchsia-800"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                    } transition duration-300`}
+                  disabled={selectedProfiles.length === 0}
+                  onClick={handleRemoveFromFavorites}
+                  title={selectedProfiles.length === 0 ? "Select doctors first" : "Remove selected doctors"}
+                >
+                  <MdStarBorder size={20} />
+                  Remove from Favorites
+                </button>
+              ) : !isAddMode ? (
+                <button
+                  className={`flex items-center gap-1 px-4 py-2 rounded-md font-medium ${selectedGroupDoctors.length > 0
+                    ? "bg-fuchsia-700 text-white cursor-pointer hover:bg-fuchsia-800"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                    } transition duration-300`}
                   disabled={selectedGroupDoctors.length === 0}
                   onClick={handleRemoveFromGroup}
+                  title={selectedGroupDoctors.length === 0 ? "Select doctors first" : "Remove selected from group"}
                 >
                   <MdStarBorder size={20} />
                   Remove from Group
-                </button>) : (<button
-                  className={` px - 4 py - 2 rounded - md ${selectedGroupDoctors.length > 0
-                    ? "bg-fuchsia-700 text-white cursor-pointer"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    } `}
+                </button>
+              ) : (
+                <button
+                  className={`px-4 py-2 rounded-md font-medium ${selectedGroupDoctors.length > 0
+                    ? "bg-fuchsia-700 text-white cursor-pointer hover:bg-fuchsia-800"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
+                    } transition duration-300`}
                   disabled={selectedGroupDoctors.length === 0}
                   onClick={handleAddSelectedExperts}
+                  title={selectedGroupDoctors.length === 0 ? "Select doctors first" : "Add selected experts"}
                 >
                   Add Selected Experts
-                </button>))}
+                </button>
+              )}
             </div>
           </div>
 
@@ -1071,7 +1198,7 @@ Key Findings:
                       onClick={() => setSelectedGroup(null)}
                       className="text-[#800080] hover:underline"
                     >
-                      {isAddMode ? 'view more profile and Add them' : 'View All Favorites'}
+                      {isAddMode ? 'view more profile and Add them' : 'View All Segments'}
                     </button>
                   </div>
                   {profileItemGroupDoctors?.length > 0 && !isGroupDoctorsLoading ? (
@@ -1145,6 +1272,21 @@ Key Findings:
             onAddExperts={handleAddExperts}
 
           />
+
+          {/* Content Selection Modal */}
+          <ContentSelectionModal
+            isOpen={isContentSelectionOpen}
+            onClose={handleCloseContentModal}
+            onSelectTopic={handleContentModalTopicSelect}
+          />
+
+          {/* Template Selection Modal */}
+          <TemplateSelectionModal
+            isOpen={isTemplateSelectionOpen}
+            onClose={handleCloseTemplateModal}
+            topic={selectedTopic}
+            onSend={handleSendContent}
+          />
         </div>
       </div>
     </div>
@@ -1152,3 +1294,5 @@ Key Findings:
 }
 
 export default FavouritesPage
+
+

@@ -65,6 +65,7 @@ const ProfileDetails = memo(({ profile, clinicalData }) => {
   const [favorites, setFavorites] = useState([])
   const [isFavoritesLoading, setIsFavoritesLoading] = useState(false)
   const [isAddingToFavorites, setIsAddingToFavorites] = useState(false)
+  const [showFullDegree, setShowFullDegree] = useState(false);
   const menuRef = useRef(null);
   const aiMenuRef = useRef(null); // Add new ref for live AI summary modal
   const recordIdSecret = import.meta.env.VITE_RECORDID_SECRET
@@ -327,7 +328,7 @@ const ProfileDetails = memo(({ profile, clinicalData }) => {
     } catch (error) {
       console.log(error);
       toast.update(toastId, {
-        render: "Failed to remove from favorites",
+        render: "Failed to remove from segment",
         type: "error",
         isLoading: false,
         autoClose: 2000,
@@ -524,17 +525,37 @@ ${JSON.stringify(
             <h1 className="text-xl font-medium text-black">
               {profile.Full_Name}
             </h1>
-            <p className="">
-              {[
-                profile["Degree_1"],
-                profile["Degree_2"],
-                profile["Degree_3"],
-                profile["Degree_4"],
-                profile["Degree_5"],
-              ]
-                .filter((degree) => degree !== "NaN" && degree)
-                .join(", ")}
-            </p>
+{(() => {
+  const degrees = [
+    profile["Degree_1"],
+    profile["Degree_2"],
+    profile["Degree_3"],
+    profile["Degree_4"],
+    profile["Degree_5"],
+  ].filter((degree) => degree && degree !== "NaN");
+
+  const fullText = degrees.join(", ");
+
+  const shortText =
+    fullText.length > 50 ? fullText.slice(0, 50) + "..." : fullText;
+
+  return (
+    <p className="">
+      {showFullDegree ? fullText : shortText}
+
+      {fullText.length > 50 && (
+        <span
+          className="text-blue-600 cursor-pointer ml-2"
+          onClick={() => setShowFullDegree((prev) => !prev)}
+        >
+          {showFullDegree ? "See less" : "See more"}
+        </span>
+      )}
+    </p>
+  );
+})()}
+
+
           </div>
           {/*cv, summary and favourites buttons */}
           <div className="hidden lg:flex gap-6 items-center relative">
@@ -652,16 +673,16 @@ ${JSON.stringify(
             {isFavorite ? (
               <button
                 className="text-white bg-[#7c0f7c] button rounded-md hover:bg-[#693865]"
-                aria-label="Add to favorites"
+                aria-label="Add to segment"
                 onClick={handleRemoveFromFavorites}>
-                REMOVE FROM FAVORITES
+                REMOVE FROM Segment
               </button>
             ) : (
               <button
                 className="text-white bg-[#800080] button rounded-md hover:bg-[#693865]"
-                aria-label="Add to favorites"
+                aria-label="Add to segment"
                 onClick={handleAddToFavorites}>
-                ADD TO FAVORITES
+                ADD TO Segment
               </button>
             )}
           </div>

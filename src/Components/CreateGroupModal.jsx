@@ -44,7 +44,7 @@ const CreateGroupModal = ({ isOpen, onClose, selectedProfiles, onCreateGroup, gr
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"> {/* Corrected opacity class */}
             <div className="bg-white rounded-lg p-6 w-96">
                 <h2 className="text-xl font-semibold mb-4">
-                    Create New Group
+                    Create New Segment
                 </h2>
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col gap-4 w-full max-w-md"> {/* Changed to flex-col for better stacking on small screens */}
@@ -52,7 +52,7 @@ const CreateGroupModal = ({ isOpen, onClose, selectedProfiles, onCreateGroup, gr
                             type="text"
                             value={groupName}
                             onChange={(e) => setGroupName(e.target.value)}
-                            placeholder="Enter the Group Name"
+                            placeholder="Enter the segment Name"
                             // Corrected className syntax and combined classes
                             className="w-full p-2 border border-gray-300 rounded focus:border-[#800080] mb-4"
                         />
@@ -60,7 +60,7 @@ const CreateGroupModal = ({ isOpen, onClose, selectedProfiles, onCreateGroup, gr
                             <> {/* Use a React Fragment to wrap sibling elements */}
                                 {/* Optional: Add a label for accessibility */}
                                 <label htmlFor="existing-group-select" className="block text-sm font-medium text-gray-700 sr-only">
-                                    Select an existing group
+                                    Select an existing segment
                                 </label>
                                 <select
                                     id="existing-group-select" // Added ID for label association
@@ -76,7 +76,7 @@ const CreateGroupModal = ({ isOpen, onClose, selectedProfiles, onCreateGroup, gr
                                     // Corrected className attribute and combined classes
                                     className="w-full p-2 border border-gray-300 rounded text-gray-700 bg-white"
                                 >
-                                    <option value="">-- Or select an existing group --</option>
+                                    <option value="">-- Or select an existing segment --</option>
                                     {groupNames.map((name, index) => (
                                         // Corrected className for option, though often not needed for options directly
                                         <option key={index} value={name}>{name}</option>
@@ -98,7 +98,7 @@ const CreateGroupModal = ({ isOpen, onClose, selectedProfiles, onCreateGroup, gr
                             className="px-4 py-2 bg-[#800080] text-white rounded hover:bg-[#600060]"
                         >
                             {/* Dynamic button text based on whether a new name is entered or existing is selected */}
-                            {groupName.trim() && groupNames.includes(groupName) ? "Select Group" : "Create Group"}
+                            {groupName.trim() && groupNames.includes(groupName) ? "Select Segment" : "Create Segment"}
                         </button>
                     </div>
                 </form >

@@ -45,7 +45,7 @@ const HCOFavouritesPage = () => {
                 <button 
                 onClick={() => handleRemoveFromFavorites()}
                 disabled={checkedBranches.length === 0}
-                className='text-white bg-[#800080] rounded-md flex items-center gap-2 px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-700 hover:shadow-lg'><RiStarOffLine size={20}/>Remove From Favourites</button>
+                className='text-white bg-[#800080] rounded-md flex items-center gap-2 px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-700 hover:shadow-lg'><RiStarOffLine size={20}/>Remove From Segment</button>
             </div>
             <div className="grid grid-cols-3 gap-x-6">
                 {selectedBranches.length > 0 ? (

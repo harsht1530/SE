@@ -78,12 +78,12 @@ const HCOProfileDetails = ({hcoProfile, loading}) => {
             
             <button 
               className="text-white bg-[#800080] button rounded-md flex items-center gap-2"
-              aria-label="Add to favorites"
+              aria-label="Add to segment"
               onClick = {() => handleAddToFavorites(profile)}
               disabled = {isFavorite(profile)}
             >
               <SlStar />
-              {isFavorite(profile) ? 'ADDED TO FAVORITES' : 'ADD TO FAVORITES'}
+              {isFavorite(profile) ? 'ADDED TO FAVORITES' : 'ADD TO SEGMENT'}
             </button>
             {/* <button 
               className="bg-transparent border border-[#0B6DA4] button shadow-md"

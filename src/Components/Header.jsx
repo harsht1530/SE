@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Search } from "lucide-react";
 import { ImNewspaper } from "react-icons/im";
-import { TiStarOutline } from "react-icons/ti";
+import { TiStarOutline, TiThMenuOutline } from "react-icons/ti";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice.js";
@@ -355,12 +355,12 @@ const Header = React.memo(({ onStartTour }) => {
             className={`step-favourites text-gray-500 flex flex-col items-center cursor-pointer ${isFavoritesActive ? "border-b-2 border-[#800080]" : ""
               }`}
             onClick={() => navigate("/favourites")}>
-            <TiStarOutline
+            <TiThMenuOutline
               size={20}
               className={isFavoritesActive ? "text-[#800080]" : ""}
             />
             <p className={isFavoritesActive ? "text-[#800080]" : ""}>
-              Favorites
+              Segment
             </p>
           </div>
           <div
@@ -610,7 +610,7 @@ const Header = React.memo(({ onStartTour }) => {
                     className={isFavoritesActive ? "text-[#800080]" : ""}
                   />
                   <p className={isFavoritesActive ? "text-[#800080]" : ""}>
-                    Favorites
+                    Segments
                   </p>
                 </div>
 

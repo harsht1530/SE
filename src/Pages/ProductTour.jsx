@@ -111,7 +111,7 @@ const useProductTourSteps = (customNavigate, waitForElement) => {
     },
     {
       id: 'step-create-group',
-      title: "Create Group",
+      title: "Create Segment",
       text: "Here you can create your own favourites group to organize your content.",
       attachTo: { element: ".create-group", on: "right" },
       beforeShow: async () => {

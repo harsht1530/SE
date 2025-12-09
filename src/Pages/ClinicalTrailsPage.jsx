@@ -18,6 +18,7 @@ const ClinicalTrailsPage = ({ limit=false,
   const [isSummaryModelOpen, setIsSummaryModelOpen] = useState(false);
   const [isLoadingClinicalDataByNctId, setIsLoadingClinicalDataByNctId] = useState(false);
   // const { clinicalData, clinicalDataByNctId, handleClinicalData } = useClinicalTrials();
+  const [isNoDataModalOpen, setIsNoDataModalOpen] = useState(false);
   const contextData = useClinicalTrials();
 
   const clinicalData = fromNewsFeed?newsFeedClinicalData:contextData.clinicalData;
@@ -25,13 +26,21 @@ const ClinicalTrailsPage = ({ limit=false,
   const clinicalDataByNctId = fromNewsFeed?
   newsFeedClinicalDataByNctId:contextData.clinicalDataByNctId;
 
-  const handleClinicalData = async (nctId, recordId) => {
+const handleClinicalData = async (nctId, recordId) => {
   setIsLoadingClinicalDataByNctId(true);
-  await (fromNewsFeed
+
+  const response = await (fromNewsFeed
     ? newsFeedHandleClinicalData(nctId, recordId)
     : contextData.handleClinicalData(nctId, recordId));
+
   setIsLoadingClinicalDataByNctId(false);
+
+  // If API returned nothing → open "No data" modal
+  if (!response || Object.keys(response).length === 0) {
+    setIsNoDataModalOpen(true);
+  }
 };
+
 
   // console.log(clinicalDataByNctId, " Here is the clinical data by nct id");
   const { profileId } = useParams();
@@ -73,10 +82,21 @@ const ClinicalTrailsPage = ({ limit=false,
               <div className='flex items-center gap-2'>
               {/* <button onClick={openSummaryModel} className='bg-gray-400 p-2 rounded-md hover:bg-[#800080] hover:text-white'>View Summary</button> */}
               <button
-                onClick={() => {
-                  openModal();
-                  handleClinicalData(item.nctId,item.Record_Id);
-                }}
+                // onClick={() => {
+                //   openModal();
+                //   handleClinicalData(item.nctId,item.Record_Id);
+                // }}
+
+                onClick={async () => {
+  openModal();
+  await handleClinicalData(item.nctId, item.Record_Id);
+
+  // If no data → close main modal
+  if (!clinicalDataByNctId || Object.keys(clinicalDataByNctId).length === 0) {
+    setIsModalOpen(false);
+  }
+}}
+
                 className="flex items-center gap-2  px-1 py-1 md:px-2 md:py-2 lg:px-2 lg-py-2 bg-gray-400 text-white rounded-md hover:bg-[#800080] transition cursor-pointer"
               >
                 View More <TbExternalLink size={20} />
@@ -278,6 +298,26 @@ const ClinicalTrailsPage = ({ limit=false,
                     
         </div>
       )}
+
+      {isNoDataModalOpen && (
+  <div className="fixed inset-0 bg-black/60 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md text-center">
+      <h2 className="text-xl font-semibold text-red-600 mb-4">
+        Data Not Available
+      </h2>
+      <p className="text-gray-700 mb-6">
+        No clinical trial details found for this record.
+      </p>
+      <button
+        onClick={() => setIsNoDataModalOpen(false)}
+        className="px-4 py-2 bg-[#800080] text-white rounded-md hover:bg-purple-700"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
   
     </div>)
     
