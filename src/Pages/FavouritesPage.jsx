@@ -27,6 +27,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { FaWindowRestore } from 'react-icons/fa6';
 import { FaUsers } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi"; // Add this import for the three-dot menu icon
+import { TiThMenuOutline } from 'react-icons/ti';
 /**
  * @component FavouritesPage
  * @description Manages favorite doctors and doctor groups with features for organizing,
@@ -333,14 +334,14 @@ const FavouritesPage = () => {
       setIsModalOpen(false);
 
       toast.update(toastId, {
-        render: `Group ${newGroup.name} created successfully`,
+        render: `Segment ${newGroup.name} created successfully`,
         type: "success",
         isLoading: false,
         autoClose: 1000
       })
     } catch (e) {
       toast.update(toastId, {
-        render: "Failed to create Group",
+        render: "Failed to create segment",
         type: "error",
         isLoading: false,
         autoClose: 2000
@@ -998,12 +999,12 @@ Key Findings:
       <div className="grid grid-cols-12 gap-1 ">
         <div className='col-span-3 shadow-lg rounded-lg p-4 ml-2 min-h-screen'>
           <div className="flex flex-row items-center justify-between border-b border-b-gray-700">
-            <div><h2 className='font-medium  flex items-center gap-1 mb-2 text-lg'><MdStarBorder size={20} /> Favorites</h2></div>
+            <div><h2 className='font-medium  flex items-center gap-1 mb-2 text-lg'><TiThMenuOutline size={20} /> Segment</h2></div>
             <div className="flex flex-row items-center justify-between mt-2 border-b border-b-gray-400 pb-2">
               {/* <h2 className='text-[#800080] flex items-center'>My Group</h2> */}
 
               <button onClick={() => setIsModalOpen(true)} className='border border-[#800080] p-1 rounded-sm hover:bg-[#800080] hover:text-[#fff] flex items-center justify-center  text-[#800080] create-group'>
-                <span className="flex items-center justify-center"> <MdAdd /> Create Group</span>
+                <span className="flex items-center justify-center"> <MdAdd /> Create Segment</span>
               </button>
             </div>
 
@@ -1082,7 +1083,7 @@ Key Findings:
                   title={selectedProfiles.length === 0 ? "Select doctors first" : "Remove selected doctors"}
                 >
                   <MdStarBorder size={20} />
-                  Remove from Favorites
+                  Remove from Segment
                 </button>
               ) : !isAddMode ? (
                 <button
@@ -1250,7 +1251,7 @@ Key Findings:
                   {ProfileItem}
                 </List>
               ) : (
-                <p className="text-center py-4">{!isFavoritesLoading ? "No Favorites added yet" : "Loading.."}</p>
+                <p className="text-center py-4">{!isFavoritesLoading ? "No Segments added yet" : "Loading.."}</p>
               )
             )}
           </div>
